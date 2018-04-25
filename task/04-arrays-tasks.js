@@ -283,7 +283,9 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-   throw new Error('Not implemented');
+    return [].concat(...arr.map((item, index) => {
+       return new Array(index + 1).fill(item);
+    }));
 }
 
 
@@ -477,7 +479,11 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]   
  */
 function getIdentityMatrix(n) {
-   throw new Error('Not implemented');
+   return new Array(n).fill([]).map((items, index) => {
+      items = new Array(n).fill(0);
+      items[index] = 1;
+      return items;
+   })
 }
 
 /**
@@ -494,7 +500,9 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-   throw new Error('Not implemented');
+   return new Array(end - start + 1).fill(0).map((items, index) => {
+      return start + index;
+   })
 }
 
 /**
@@ -509,7 +517,9 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-   throw new Error('Not implemented');
+   return arr.filter((item, index) => {
+      return arr.indexOf(item) === index;
+   })
 }
 
 /**
@@ -543,7 +553,13 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-   throw new Error('Not implemented');
+   return array.reduce((map, item) => {
+      if (!(map.has(keySelector(item)))) {
+         map.set(keySelector(item), []);
+      }
+      map.get(keySelector(item)).push(valueSelector(item));
+      return map;
+   }, new Map());
 }
 
 
@@ -559,7 +575,7 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-    throw new Error('Not implemented');
+    return [].concat(...arr.map(item => childrenSelector(item)));
 }
 
 
@@ -576,7 +592,10 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    throw new Error('Not implemented');
+    if (indexes.length === 1) {
+       return arr[indexes[0]];
+    }
+    return getElementByIndexes(arr[indexes[0]], indexes.slice(1));
 }
 
 

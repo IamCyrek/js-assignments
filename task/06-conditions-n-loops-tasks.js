@@ -136,7 +136,7 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+    return rect2.top < rect1.top + rect1.height && rect2.left < rect1.left + rect1.width;
 }
 
 
@@ -280,7 +280,25 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    let res = [];
+    let arr = ccn.toString().split('').map(item => parseInt(item));
+    for (let i = 0; i < arr.length; i++) {
+        if (arr.length % 2 === 0) {
+            if (i % 2 === 0) {
+                res.push(arr[i] * 2 > 9 ? arr[i] * 2 - 9 : arr[i] * 2);
+            } else {
+                res.push(arr[i])
+            }
+        } else {
+            if (i % 2 !== 0) {
+                res.push(arr[i] * 2 > 9 ? arr[i] * 2 - 9 : arr[i] * 2);
+            } else {
+                res.push(arr[i])
+            }
+        }
+    }
+    let sum = res.reduce((sum, item) => {return sum + item})
+    return Boolean(sum%10 === 0);
 }
 
 
@@ -389,9 +407,60 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
-}
+    let start = startDate.getTime();
+    let end = endDate.getTime();
+    if (0 < end - start && end - start <= 1000 * 45) {
+        return "a few seconds ago";
+    }
+    if (end - start <= 1000 * 90) {
+        return "a minute ago";
+    }
+    if (end - start <= 1000 * 60 * 45) {
+        if ((end - start) / 1000 / 60 > parseInt((end - start) / 1000 / 60, 10) + 0.5)
+            return parseInt((end - start) / 1000 / 60 + 1, 10) +  " minutes ago";
+        else
+            return parseInt((end - start) / 1000 / 60, 10) +  " minutes ago";
+    }
+    if (end - start <= 1000 * 60 * 90) {
+        return "an hour ago";
+    }
+    if (end - start <= 1000 * 60 * 60 * 22) {
+        if ((end - start) / 1000 / 60 / 60 >
+                   parseInt((end - start) / 1000 / 60 / 60, 10) + 0.5)
+            return parseInt((end - start) / 1000 / 60 / 60 + 1, 10) +  " hours ago";
+        else
+            return parseInt((end - start) / 1000 / 60 / 60, 10) +  " hours ago";
+    }
+    if (end - start <= 1000 * 60 * 60 * 36) {
+        return "a day ago";
+    }
+    if (end - start <= 1000 * 60 * 60 * 24 * 25) {
+        if ((end - start) / 1000 / 60 / 60 / 24 >
+                   parseInt((end - start) / 1000 / 60 / 60 / 24, 10) + 0.5)
+            return parseInt((end - start) / 1000 / 60 / 60 / 24 + 1, 10) +  " days ago";
+        else
+            return parseInt((end - start) / 1000 / 60 / 60 / 24, 10) +  " days ago";
+    }
+    if (end - start <= 1000 * 60 * 60 * 24 * 45) {
+        return "a month ago";
+    }
+    if (end - start <= 1000 * 60 * 60 * 24 * 345) {
+        if ((end - start) / 1000 / 60 / 60 / 24 / 30 >
+                   parseInt((end - start) / 1000 / 60 / 60 / 24 / 30, 10) + 0.5)
+            return parseInt((end - start) / 1000 / 60 / 60 / 24 / 30 + 1, 10) +  " months ago";
+        else
+            return parseInt((end - start) / 1000 / 60 / 60 / 24 / 30, 10) +  " months ago";
+    }
+    if (end - start <= 1000 * 60 * 60 * 24 * 545) {
+        return "a year ago";
+    }
 
+    if ((end - start) / 1000 / 60 / 60 / 24 / 365 >
+               parseInt((end - start) / 1000 / 60 / 60 / 24 / 365, 10) + 0.5) {
+        return parseInt((end - start) / 1000 / 60 / 60 / 24 / 365 + 1, 10) +  " years ago";
+    }
+    return parseInt((end - start) / 1000 / 60 / 60 / 24 / 365, 10) +  " years ago";
+}
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specified number.

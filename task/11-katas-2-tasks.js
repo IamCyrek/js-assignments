@@ -63,7 +63,24 @@ function parseBankAccount(bankAccount) {
  *                                                                                                'characters.'
  */
 function* wrapText(text, columns) {
-    throw new Error('Not implemented');
+    let arr = text.split(" ");
+    let kol = 0;
+    let substr = "";
+    while (kol < arr.length) {
+        if (substr.length + arr[kol].length < columns) {
+            if (substr.length === 0) {
+                substr = arr[kol++];
+            } else {
+                substr += " " + arr[kol++];
+            }
+        } else {
+            yield substr;
+            substr = "";
+        }
+    }
+    if (substr.length > 0) {
+        yield substr;
+    }
 }
 
 
@@ -100,7 +117,108 @@ const PokerRank = {
 }
 
 function getPokerHandRank(hand) {
-    throw new Error('Not implemented');
+    let arr = hand.map((value) => {
+        let curval;
+        if (parseInt(value[0]) >= 2 && parseInt(value[0]) <= 9) {
+            curval = parseInt(value[0]);
+        } else if (value[0] === "1") {
+            curval = 10;
+        } else if (value[0] === "J") {
+            curval = 11;
+        } else if (value[0] === "Q") {
+            curval = 12;
+        } else if (value[0] === "K") {
+            curval = 13;
+        } else {
+            curval = 14;
+        }
+
+        if (value[value.length - 1] === "♠") {
+            curval += 100;
+        } else if (value[value.length - 1] === "♥") {
+            curval += 1000;
+        } else if (value[value.length - 1] === "♣") {
+            curval += 10000;
+        } else {
+            curval += 100000;
+        }
+        return curval;
+    }).sort((a, b) => {
+        if (a % 100 < b % 100) {
+            return -1;
+        }
+        if (a % 100 === b % 100) {
+            return 0;
+        }
+        return 1;
+    });
+
+    if (arr[0] + 1 === arr[1] &&
+        arr[1] + 1 === arr[2] &&
+        arr[2] + 1 === arr[3] &&
+        arr[3] + 1 === arr[4] ||
+        arr[4] % 100 === 14 &&
+        2 === arr[0] % 100 &&
+        parseInt(arr[0] / 100) === parseInt(arr[1] / 100) &&
+        arr[0] + 1 === arr[1] &&
+        arr[1] + 1 === arr[2] &&
+        arr[2] + 1 === arr[3]) {
+        return PokerRank.StraightFlush;
+    }
+    if (arr[0] % 100 === arr[1] % 100 &&
+        arr[1] % 100 === arr[2] % 100 &&
+        arr[2] % 100 === arr[3] % 100 ||
+        arr[1] % 100 === arr[2] % 100 &&
+        arr[2] % 100 === arr[3] % 100 &&
+        arr[3] % 100 === arr[4] % 100) {
+        return PokerRank.FourOfKind;
+    }
+    if (arr[0] % 100 === arr[1] % 100 &&
+        arr[1] % 100 === arr[2] % 100 &&
+        arr[3] % 100 === arr[4] % 100 ||
+        arr[0] % 100 === arr[1] % 100 &&
+        arr[2] % 100 === arr[3] % 100 &&
+        arr[3] % 100 === arr[4] % 100) {
+        return PokerRank.FullHouse;
+    }
+    if (parseInt(arr[0] / 100) === parseInt(arr[1] / 100) &&
+        parseInt(arr[1] / 100) === parseInt(arr[2] / 100) &&
+        parseInt(arr[2] / 100) === parseInt(arr[3] / 100) &&
+        parseInt(arr[3] / 100) === parseInt(arr[4] / 100)) {
+        return PokerRank.Flush;
+    }
+    if (arr[0] % 100 + 1 === arr[1] % 100 &&
+        arr[1] % 100 + 1 === arr[2] % 100 &&
+        arr[2] % 100 + 1 === arr[3] % 100 &&
+        arr[3] % 100 + 1 === arr[4] % 100 ||
+        arr[4] % 100 === 14 && 2 === arr[0] % 100 &&
+        arr[0] % 100 + 1 === arr[1] % 100 &&
+        arr[1] % 100 + 1 === arr[2] % 100 &&
+        arr[2] % 100 + 1 === arr[3] % 100) {
+        return PokerRank.Straight;
+    }
+    if (arr[0] % 100 === arr[1] % 100 &&
+        arr[1] % 100 === arr[2] % 100 ||
+        arr[1] % 100 === arr[2] % 100 &&
+        arr[2] % 100 === arr[3] % 100 ||
+        arr[2] % 100 === arr[3] % 100 &&
+        arr[3] % 100 === arr[4] % 100) {
+        return PokerRank.ThreeOfKind;
+    }
+    if (arr[0] % 100 === arr[1] % 100 &&
+        arr[2] % 100 === arr[3] % 100 ||
+        arr[0] % 100 === arr[1] % 100 &&
+        arr[3] % 100 === arr[4] % 100 ||
+        arr[1] % 100 === arr[2] % 100 &&
+        arr[3] % 100 === arr[4] % 100) {
+        return PokerRank.TwoPairs;
+    }
+    if (arr[0] % 100 === arr[1] % 100 ||
+        arr[2] % 100 === arr[3] % 100 ||
+        arr[3] % 100 === arr[4] % 100) {
+        return PokerRank.OnePair;
+    }
+    return PokerRank.HighCard;
 }
 
 

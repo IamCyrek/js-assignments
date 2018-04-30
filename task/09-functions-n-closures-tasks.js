@@ -150,7 +150,13 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    throw new Error('Not implemented');
+    return function() {
+        let params = JSON.stringify(Array.from(arguments)).slice(1, -1);
+        logFunc(`${func.name}(${params}) starts`);
+        let result = func.apply(this, arguments);
+        logFunc(`${func.name}(${params}) ends`);
+        return result;
+    }
 }
 
 
@@ -168,7 +174,7 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+    return (...a) => fn(...Array.from(arguments).slice(1,), ...a);
 }
 
 
@@ -189,7 +195,7 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    return () => startFrom++;
 }
 
 

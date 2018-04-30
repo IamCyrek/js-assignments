@@ -128,7 +128,43 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    throw new Error('Not implemented');
+    let arr = Array(n).fill([]).map(() => Array(n).fill(0));
+    let kol = 1;
+    let cycle = 0;
+    let x = 0;
+    let y = 0;
+
+    while (kol < n * n) {
+        if (cycle === 0) {
+            cycle = 1;
+            if (x + 1 < n) {
+                x++;
+            } else {
+                y++;
+            }
+        } else if (cycle === 1) {
+            if (x - 1 === 0 || y + 1 === n - 1) {
+                cycle = 2;
+            }
+            x--;
+            y++;
+        } else if (cycle === 2) {
+            if (y + 1 < n) {
+                y++;
+            } else {
+                x++;
+            }
+            cycle = 3;
+        } else {
+            if (x + 1 === n - 1 || y - 1 === 0) {
+                cycle = 0;
+            }
+            x++;
+            y--;
+        }
+        arr[y][x] = kol++;
+    }
+    return arr;
 }
 
 
@@ -199,7 +235,37 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    throw new Error('Not implemented');
+    let last = 0;
+    let ans = "";
+    let newarr = nums.slice(0);
+    newarr.push(nums[nums.length - 1] + 10);
+
+    for (let i = 0; i < nums.length; i++) {
+        if (newarr[i] + 1 !== newarr[i + 1]) {
+            if (i === 0) {
+                ans += newarr[i];
+            } else if (last === 0) {
+                if (last === i) {
+                    ans += newarr[i];
+                } else if (last + 1 === i) {
+                    ans += newarr[last] + "," + newarr[i];
+                } else {
+                    ans += newarr[last] + "-" + newarr[i];
+                }
+            } else {
+                if (last === i) {
+                    ans += "," + newarr[i];
+                } else if (last + 1 === i) {
+                    ans += "," + newarr[last] + "," + newarr[i];
+                } else {
+                    ans += "," + newarr[last] + "-" + newarr[i];
+                }
+            }
+            last = i + 1;
+        }
+    }
+
+    return ans;
 }
 
 module.exports = {

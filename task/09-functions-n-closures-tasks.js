@@ -174,7 +174,7 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    return (...a) => fn(...Array.from(arguments).slice(1,), ...a);
+    return (...a) => fn(...Array.from(arguments).slice(1), ...a);
 }
 
 

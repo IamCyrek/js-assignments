@@ -34,7 +34,50 @@
  *
  */
 function parseBankAccount(bankAccount) {
-    throw new Error('Not implemented');
+    function sum(ii, jj) {
+        let kol = 0;
+        for(let i = ii; i < ii + 3; i++) {
+            for (let j = jj; j < jj + 3; j++) {
+                if (arr[i][j] !== " ") {
+                    kol++;
+                }
+            }
+        }
+        return kol;
+    }
+
+    let arr = bankAccount.split("\n");
+    let ans = "";
+    for(let i = 0; i < arr[0].length; i+= 3) {
+        let ansfromfunc = sum(0, i);
+
+        if (ansfromfunc === 6) {
+            if (arr[2][i] === " ") {
+                ans += "9";
+            } else if (arr[1][i + 2] === " ") {
+                ans += "6";
+            } else {
+                ans += "0";
+            }
+        } else if (ansfromfunc === 2) {
+            ans += "1";
+        } else if (ansfromfunc === 5) {
+            if (arr[2][i] !== " ") {
+                ans += "2";
+            } else if (arr[1][i + 2] !== " ") {
+                ans += "3";
+            } else {
+                ans += "5";
+            }
+        } else if (ansfromfunc === 4) {
+            ans += "4";
+        } else if (ansfromfunc === 3) {
+            ans += "7";
+        } else  {
+            ans += "8";
+        }
+    }
+    return ans;
 }
 
 

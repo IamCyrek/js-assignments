@@ -28,7 +28,43 @@
  *   'NULL'      => false 
  */
 function findStringInSnakingPuzzle(puzzle, searchStr) {
-    throw new Error('Not implemented');
+    let masbool;
+    function check(ii, jj, index) {
+        masbool[ii][jj] = 1;
+        if (index === searchStr.length) {
+            return true;
+        }
+
+        let boolean = false;
+        if (ii > 0 && masbool[ii - 1][jj] === 0 && puzzle[ii - 1][jj] === searchStr[index]) {
+            masbool[ii - 1][jj] = 1;
+            boolean = boolean || check(ii - 1, jj, index + 1);
+        }
+        if (ii + 1 < puzzle.length && masbool[ii + 1][jj] === 0 && puzzle[ii + 1][jj] === searchStr[index]) {
+            masbool[ii + 1][jj] = 1;
+            boolean = boolean || check(ii + 1, jj, index + 1);
+        }
+        if (jj > 0 && masbool[ii][jj - 1] === 0 && puzzle[ii][jj - 1] === searchStr[index]) {
+            masbool[ii][jj - 1] = 1;
+            boolean = boolean || check(ii, jj - 1, index + 1);
+        }
+        if (jj + 1 < puzzle[0].length && masbool[ii][jj + 1] === 0 && puzzle[ii][jj + 1] === searchStr[index]) {
+            masbool[ii][jj + 1] = 1;
+            boolean = boolean || check(ii, jj + 1, index + 1);
+        }
+        masbool[ii][jj] = 0;
+        return boolean
+    }
+
+    for (let i = 0; i < puzzle.length; i++) {
+        for (let j = 0; j < puzzle[i].length; j++) {
+            masbool = Array(puzzle.length).fill().map((value) => Array(puzzle[0].length).fill(0));
+            if (puzzle[i][j] === searchStr[0] && check(i, j, 1)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 
@@ -45,7 +81,27 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  *    'abc' => 'abc','acb','bac','bca','cab','cba'
  */
 function* getPermutations(chars) {
-    throw new Error('Not implemented');
+    function generate(str) {
+        if (str.length === 0) {
+            return;
+        }
+        let ans = [];
+        for (let i = 0; i < str.length; i++) {
+            let arr = generate(str.slice(0, i) + str.slice(i + 1));
+            if (arr) {
+                for (let j = 0; j < arr.length; j++) {
+                    ans.push(str[i] + arr[j]);
+                }
+            } else {
+                ans.push(str[i]);
+            }
+        }
+        return ans;
+    }
+
+    for (let a of generate(chars)) {
+        yield a;
+    }
 }
 
 
@@ -65,6 +121,7 @@ function* getPermutations(chars) {
  *    [ 1, 6, 5, 10, 8, 7 ] => 18  (buy at 1,6,5 and sell all at 10)
  */
 function getMostProfitFromStockQuotes(quotes) {
+    //TODO this task
     throw new Error('Not implemented');
 }
 

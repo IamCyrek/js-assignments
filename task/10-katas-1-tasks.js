@@ -17,48 +17,8 @@
  *  ]
  */
 function createCompassPoints() {
+    throw new Error('Not implemented');
     var sides = ['N','E','S','W'];  // use array of cardinal directions only!
-    return [
-        { abbreviation : 'N',     azimuth :   0.00 },
-        { abbreviation : 'NbE',   azimuth :  11.25 },
-        { abbreviation : 'NNE',   azimuth :  22.50 },
-        { abbreviation : 'NEbN',  azimuth :  33.75 },
-
-        { abbreviation : 'NE',    azimuth :  45.00 },
-        { abbreviation : 'NEbE',  azimuth :  56.25 },
-        { abbreviation : 'ENE',   azimuth :  67.50 },
-        { abbreviation : 'EbN',   azimuth :  78.75 },
-
-        { abbreviation : 'E',     azimuth :  90.00 },
-        { abbreviation : 'EbS',   azimuth : 101.25 },
-        { abbreviation : 'ESE',   azimuth : 112.50 },
-        { abbreviation : 'SEbE',  azimuth : 123.75 },
-
-        { abbreviation : 'SE',    azimuth : 135.00 },
-        { abbreviation : 'SEbS',  azimuth : 146.25 },
-        { abbreviation : 'SSE',   azimuth : 157.50 },
-        { abbreviation : 'SbE',   azimuth : 168.75 },
-
-        { abbreviation : 'S',     azimuth : 180.00 },
-        { abbreviation : 'SbW',   azimuth : 191.25 },
-        { abbreviation : 'SSW',   azimuth : 202.50 },
-        { abbreviation : 'SWbS',  azimuth : 213.75 },
-
-        { abbreviation : 'SW',    azimuth : 225.00 },
-        { abbreviation : 'SWbW',  azimuth : 236.25 },
-        { abbreviation : 'WSW',   azimuth : 247.50 },
-        { abbreviation : 'WbS',   azimuth : 258.75 },
-
-        { abbreviation : 'W',     azimuth : 270.00 },
-        { abbreviation : 'WbN',   azimuth : 281.25 },
-        { abbreviation : 'WNW',   azimuth : 292.50 },
-        { abbreviation : 'NWbW',  azimuth : 303.75 },
-
-        { abbreviation : 'NW',    azimuth : 315.00 },
-        { abbreviation : 'NWbN',  azimuth : 326.25 },
-        { abbreviation : 'NNW',   azimuth : 337.50 },
-        { abbreviation : 'NbW',   azimuth : 348.75 }
-    ];
 }
 
 
@@ -128,43 +88,7 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    let arr = Array(n).fill([]).map(() => Array(n).fill(0));
-    let kol = 1;
-    let cycle = 0;
-    let x = 0;
-    let y = 0;
-
-    while (kol < n * n) {
-        if (cycle === 0) {
-            cycle = 1;
-            if (x + 1 < n) {
-                x++;
-            } else {
-                y++;
-            }
-        } else if (cycle === 1) {
-            if (x - 1 === 0 || y + 1 === n - 1) {
-                cycle = 2;
-            }
-            x--;
-            y++;
-        } else if (cycle === 2) {
-            if (y + 1 < n) {
-                y++;
-            } else {
-                x++;
-            }
-            cycle = 3;
-        } else {
-            if (x + 1 === n - 1 || y - 1 === 0) {
-                cycle = 0;
-            }
-            x++;
-            y--;
-        }
-        arr[y][x] = kol++;
-    }
-    return arr;
+    throw new Error('Not implemented');
 }
 
 
@@ -189,29 +113,7 @@ function getZigZagMatrix(n) {
  *
  */
 function canDominoesMakeRow(dominoes) {
-    let mas = Array(7).fill(0);
-    let maskol = Array(7).fill(0);
-    for (let i = 0; i < dominoes.length; i++) {
-        mas[dominoes[i][0]]++;
-        mas[dominoes[i][1]]++;
-        if (dominoes[i][0] === dominoes[i][1]) {
-            maskol[dominoes[i][0]]++;
-        }
-    }
-    let kol = 0;
-    for (let i = 0; i < mas.length; i++) {
-        if (mas[i] % 2 === 1) {
-            kol++;
-        }
-        if (mas[i] !== 0 && mas[i] - maskol[i] * 2 === 0) {
-
-            return false;
-        }
-    }
-    if (kol === 2 || kol === 0) {
-        return true;
-    }
-    return false;
+    throw new Error('Not implemented');
 }
 
 
@@ -235,37 +137,7 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    let last = 0;
-    let ans = "";
-    let newarr = nums.slice(0);
-    newarr.push(nums[nums.length - 1] + 10);
-
-    for (let i = 0; i < nums.length; i++) {
-        if (newarr[i] + 1 !== newarr[i + 1]) {
-            if (i === 0) {
-                ans += newarr[i];
-            } else if (last === 0) {
-                if (last === i) {
-                    ans += newarr[i];
-                } else if (last + 1 === i) {
-                    ans += newarr[last] + "," + newarr[i];
-                } else {
-                    ans += newarr[last] + "-" + newarr[i];
-                }
-            } else {
-                if (last === i) {
-                    ans += "," + newarr[i];
-                } else if (last + 1 === i) {
-                    ans += "," + newarr[last] + "," + newarr[i];
-                } else {
-                    ans += "," + newarr[last] + "-" + newarr[i];
-                }
-            }
-            last = i + 1;
-        }
-    }
-
-    return ans;
+    throw new Error('Not implemented');
 }
 
 module.exports = {
